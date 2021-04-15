@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3232ff"
+    android:orientation="vertical"
+    tools:context=".view.SplashActivity">
+
+    <TextView
+        android:id="@+id/initial_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Iniciando sua Pokedex..."
+        android:text="Iniciando sua Pokedex..."
+        android:layout_marginTop="32dp"
+        android:textColor="#fff"
+        android:textSize="48sp"
+        android:textAlignment="center" />
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif_splash"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/pikachu_splash"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>

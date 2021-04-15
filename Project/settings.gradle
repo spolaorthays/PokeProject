@@ -1,0 +1,4 @@
+include ':share'
+include ':network'
+include ':app'
+rootProject.name = "PokeProject"

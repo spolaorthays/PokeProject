@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //Retrofit - Auxiliar na comunicação com a API
+    //Retrofit - Auxiliar na comunicação com a API (Falta add o coverter que usarei)
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     //Picasso - Gerenciamento de Imagens
@@ -62,8 +62,9 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     //RxJava - Gerenciamento de Threads
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.11"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
 
     //Mockk - Testes unitários
     testImplementation "io.mockk:mockk:1.11.0"

@@ -18,6 +18,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    dataBinding{
+        enabled = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -44,8 +48,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //Retrofit - Auxiliar na comunicação com a API (Falta add o coverter que usarei)
+    //Retrofit - Auxiliar na comunicação com a API
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //Gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //Picasso - Gerenciamento de Imagens
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -71,8 +79,12 @@ dependencies {
     //testImplementation("io.mockk:mockk:{version}") - Usar esse quando mudar para o KTS
 
     //ViewModel - Necessária para funcionar o 'by viewModels()'
-    implementation "androidx.fragment:fragment-ktx:1.3.2"
+    implementation "androidx.fragment:fragment-ktx:1.3.3"
 
     //Android-Gif-Drawable - Renderiza frames para disponibilizar Gifs Animados
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+}
+
+dependencies {
+    implementation project(':network')
 }

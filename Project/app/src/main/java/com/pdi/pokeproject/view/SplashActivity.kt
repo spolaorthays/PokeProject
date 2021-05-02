@@ -10,7 +10,7 @@ import java.util.*
 class SplashActivity : AppCompatActivity() {
 
     companion object {
-        const val TIMER = 5000L
+        const val TIMER = 3000L
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

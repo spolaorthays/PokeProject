@@ -63,9 +63,14 @@ class MainActivity : DataBindingHelper() {
     }
 
     private fun setupViewModel() {
-        viewModel.getPokemonsFromInteractor()
-        viewModel.pokemonList.observeForever { listPhoto ->
-            adapter.updatePokemons(listPhoto)
+        viewModel.getPokemonsFromInteractor(this)
+        viewModel.pokemonList.observeForever { listPoke ->
+            viewModel.pokemonListFormat.observeForever { listPokeDetails ->  //TODO talvez o problema esteja eme star utilizando observer forever e os 2 encavalados
+                listPoke.forEach {
+                    it.pokemonDetails = listPokeDetails
+                }
+                adapter.updatePokemons(listPoke)
+            }
         }
     }
 

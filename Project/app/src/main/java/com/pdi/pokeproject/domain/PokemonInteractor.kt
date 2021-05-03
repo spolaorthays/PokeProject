@@ -9,11 +9,6 @@ import java.lang.reflect.Type
 
 class PokemonInteractor(private val repository: PokemonRepository) : PokemonContract.Interactor{
 
-    inline fun <reified T> parseArray(json: String, typeToken: Type): T {
-        val gson = GsonBuilder().create()
-        return gson.fromJson<T>(json, typeToken)
-    }
-
     override fun getPokemonListFromRepository(): Single<List<Pokemon>> =
         repository.getPokemonListFromService().map { pokemonResponse ->
             pokemonResponse.results

@@ -6,9 +6,11 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.network.PokemonService
 import com.pdi.network.Retrofit
+import com.pdi.network.data.Pokemon
 import com.pdi.pokeproject.ManageThreads
 import com.pdi.pokeproject.R
 import com.pdi.pokeproject.databinding.ActivityMainBinding
@@ -63,14 +65,10 @@ class MainActivity : DataBindingHelper() {
     }
 
     private fun setupViewModel() {
-        viewModel.getPokemonsFromInteractor(this)
+        viewModel.getPokemonsFromInteractor()
+
         viewModel.pokemonList.observeForever { listPoke ->
-            viewModel.pokemonListFormat.observeForever { listPokeDetails ->  //TODO talvez o problema esteja eme star utilizando observer forever e os 2 encavalados
-                listPoke.forEach {
-                    it.pokemonDetails = listPokeDetails
-                }
-                adapter.updatePokemons(listPoke)
-            }
+            adapter.updatePokemons(listPoke)
         }
     }
 

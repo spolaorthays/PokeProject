@@ -1,14 +1,13 @@
 package com.pdi.pokeproject.view
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokeproject.ManageThreads
 import com.pdi.network.data.Pokemon
 import com.pdi.network.data.PokemonDetails
 import com.pdi.pokeproject.domain.PokemonContract
+import io.reactivex.annotations.Experimental
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -19,18 +18,17 @@ class MainViewModel(
 
     private val compositeDisposable = CompositeDisposable()
     val pokemonList = MutableLiveData<List<Pokemon>>()
-    val pokemonListFormat = MutableLiveData<PokemonDetails>()
+    var pokemonComplete = mutableListOf<Pokemon>()
 
-    fun getPokemonsFromInteractor(context: Context) {
+    fun getPokemonsFromInteractor() {
         compositeDisposable.add(
                 interactor.getPokemonListFromRepository()
                         .subscribeOn(scheduler.io)
                         .observeOn(scheduler.main)
                         .subscribeBy(
                                 onSuccess = {
-                                    pokemonList.value = it
                                     it.forEach { pokemon ->
-                                        getPokemonDetailFromInteractor(pokemon.url)
+                                        getPokemonDetailFromInteractor(pokemon)
                                     }
                                 },
                                 onError = {
@@ -40,18 +38,22 @@ class MainViewModel(
         )
     }
 
-    fun getPokemonDetailFromInteractor(url: String) {
+    private fun getPokemonDetailFromInteractor(pokemon: Pokemon) {
         compositeDisposable.add(
-                interactor.getPokemonDetailsFromRepository(url)
+                interactor.getPokemonDetailsFromRepository(pokemon.url)
                         .subscribeOn(scheduler.io)
                         .observeOn(scheduler.main)
                         .subscribeBy(
-                                onSuccess = {
-                                    pokemonListFormat.value = it
+                                onSuccess = { details ->
+                                    pokemon.pokemonDetails = details
+                                    pokemonComplete = mutableListOf()
+                                    pokemonComplete.add(pokemon)
+                                    pokemonList.value = pokemonComplete
                                 }, onError = {
                                     Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
                                 }
                         )
         )
+
     }
 }

@@ -40,15 +40,23 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
     inner class PokeHolder(view: View) : RecyclerView.ViewHolder(view) {
         private var name = view.findViewById<TextView>(R.id.pokemon_name)
-        private var url = view.findViewById<TextView>(R.id.pokemon_url)
         private var image = view.findViewById<ImageView>(R.id.pokemon_image)
-        private var type1 = view.findViewById<TextView>(R.id.pokemon_forma) //TODO forma é uma lista, então terei que receber uma lista aqui também
+        private var recyclerView = view.findViewById<RecyclerView>(R.id.recycler_types)
+        private lateinit var adapter: RecyclerTypePokemonAdapter
+
+
 
         fun bind(pokemon: Pokemon) {
+            setupRecycler()
             name.text = pokemon.name
-            url.text = pokemon.url
             Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
-            type1.text = pokemon.pokemonDetails.types[0].type.name
+            adapter.updateTypePokemons(pokemon.pokemonDetails.types)
+        }
+
+        fun setupRecycler() {
+            //recyclerView = viefindViewById(R.id.recycler_types)
+            adapter = RecyclerTypePokemonAdapter()
+            recyclerView.adapter = adapter
         }
     }
 }

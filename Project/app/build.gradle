@@ -16,11 +16,21 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental":"true"]
+                arguments = ["kapt.kotlin.generated":"true"]
+            }
+        }
     }
 
-    dataBinding{
-        enabled = true
+    buildFeatures {
+        dataBinding true
     }
+//    dataBinding{
+//        enabled = true
+//    }
 
     buildTypes {
         release {
@@ -62,10 +72,12 @@ dependencies {
 
     //Dagger2 - Injeção de Dependência
     implementation 'com.google.dagger:dagger:2.34.1'
+    implementation 'com.google.dagger:dagger-android-support:2.34.1'
     kapt 'com.google.dagger:dagger-compiler:2.34.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.34.1'
 
     //Room - Banco de dados
-    def room_version = "2.2.6"
+    def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     //Room - Test helpers

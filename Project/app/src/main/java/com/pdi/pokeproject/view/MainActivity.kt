@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.network.PokemonService
 import com.pdi.network.Retrofit
@@ -18,6 +19,7 @@ import com.pdi.pokeproject.data.PokemonRepository
 import com.pdi.pokeproject.domain.PokemonInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 open class DataBindingHelper: AppCompatActivity() {
 
@@ -35,6 +37,7 @@ class MainActivity : DataBindingHelper() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerPokemonAdapter
 
+    //@Inject lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by lazy {
         MainViewModel(
             PokemonInteractor(
@@ -61,6 +64,8 @@ class MainActivity : DataBindingHelper() {
     private fun setupRecycler() {
         recyclerView = findViewById(R.id.recycler_pokemon_list)
         adapter = RecyclerPokemonAdapter()
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
     }
 

@@ -13,11 +13,12 @@ class NetworkModule {
     @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient
-    ): Retrofit =
+    ): PokemonService =
         Retrofit.Builder()
             .baseUrl("https://pokeapi.co/api/v2/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
+            .create(PokemonService::class.java) //TODO o que eu coloco aqui?
 }

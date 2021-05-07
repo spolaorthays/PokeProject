@@ -17,9 +17,9 @@
             android:id="@+id/pokemon_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="14sp"
             tool:text="Type"/>
     </LinearLayout>
 

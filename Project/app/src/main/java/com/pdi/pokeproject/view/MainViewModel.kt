@@ -19,14 +19,16 @@ class MainViewModel(
     private val compositeDisposable = CompositeDisposable()
     val pokemonList = MutableLiveData<List<Pokemon>>()
     var pokemonComplete = mutableListOf<Pokemon>()
+    //var colorAtual =
 
-    fun getPokemonsFromInteractor() {
+    fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
-                interactor.getPokemonListFromRepository()
+                interactor.getPokemonListFromRepository(limit, offset)
                         .subscribeOn(scheduler.io)
                         .observeOn(scheduler.main)
                         .subscribeBy(
                                 onSuccess = {
+                                    MainActivity.isLoading = false
                                     it.forEach { pokemon ->
                                         getPokemonDetailFromInteractor(pokemon)
                                     }
@@ -49,11 +51,31 @@ class MainViewModel(
                                     pokemonComplete = mutableListOf()
                                     pokemonComplete.add(pokemon)
                                     pokemonList.value = pokemonComplete
+
+                                    getPokemonColorFromInteractor(details, pokemon)
                                 }, onError = {
-                                    Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
-                                }
+                            Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
+                        }
                         )
         )
-
     }
+
+    private fun getPokemonColorFromInteractor(details: PokemonDetails, pokemon: Pokemon) {
+        compositeDisposable.add(
+                interactor.getPokemonColorRepository(details.species.url)
+                        .subscribeOn(scheduler.io)
+                        .observeOn(scheduler.main)
+                        .subscribeBy(
+                                onSuccess = { pokemonSpecies ->
+                                    pokemon.pokemonSpecies = pokemonSpecies
+
+                                    //TODO pensar agora se coloco como retorno aqui a cor, pois preciso passar esse dado para o recyclerView depois
+                                }, onError = {
+                            Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
+                        }
+                        )
+        )
+    }
+
+
 }

@@ -82,7 +82,6 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
         }
 
         fun setupRecycler() {
-            //recyclerView = viefindViewById(R.id.recycler_types)
             adapter = RecyclerTypePokemonAdapter()
             recyclerView.adapter = adapter
         }

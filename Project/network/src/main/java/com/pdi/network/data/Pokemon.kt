@@ -7,5 +7,6 @@ data class Pokemon (
     val name: String,
     @SerializedName("url")
     val url: String,
-    var pokemonDetails: PokemonDetails
+    var pokemonDetails: PokemonDetails,
+    var pokemonSpecies: PokemonSpecies
 )

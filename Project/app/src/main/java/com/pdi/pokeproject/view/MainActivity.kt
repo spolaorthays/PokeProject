@@ -1,29 +1,28 @@
 package com.pdi.pokeproject.view
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
+import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.network.PokemonService
 import com.pdi.network.Retrofit
-import com.pdi.network.data.Pokemon
 import com.pdi.pokeproject.ManageThreads
 import com.pdi.pokeproject.R
-import com.pdi.pokeproject.databinding.ActivityMainBinding
 import com.pdi.pokeproject.data.PokemonRepository
+import com.pdi.pokeproject.databinding.ActivityMainBinding
 import com.pdi.pokeproject.domain.PokemonInteractor
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
+
 
 open class DataBindingHelper: AppCompatActivity() {
 
-    inline fun <reified T: ViewDataBinding> Activity.bind(@LayoutRes layout: Int, noinline block: T.() -> Unit): T {
+    inline fun <reified T : ViewDataBinding> Activity.bind(@LayoutRes layout: Int, noinline block: T.() -> Unit): T {
         return DataBindingUtil.setContentView<T>(this, layout).apply {
             block.invoke(this)
         }
@@ -36,15 +35,21 @@ class MainActivity : DataBindingHelper() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerPokemonAdapter
+    private var offset = 0
+
+    companion object {
+        const val LIMIT = 10
+        var isLoading = false
+    }
 
     //@Inject lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by lazy {
         MainViewModel(
-            PokemonInteractor(
-                PokemonRepository(
-                    Retrofit.provideService(
-                        PokemonService::class.java))),
-            ManageThreads(AndroidSchedulers.mainThread(), Schedulers.io())
+                PokemonInteractor(
+                        PokemonRepository(
+                                Retrofit.provideService(
+                                        PokemonService::class.java))),
+                ManageThreads(AndroidSchedulers.mainThread(), Schedulers.io())
         )
     }
 
@@ -70,10 +75,25 @@ class MainActivity : DataBindingHelper() {
     }
 
     private fun setupViewModel() {
-        viewModel.getPokemonsFromInteractor()
+        viewModel.getPokemonsFromInteractor(LIMIT, offset)
 
         viewModel.pokemonList.observeForever { listPoke ->
             adapter.updatePokemons(listPoke)
+
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                    if (recyclerView.canScrollVertically(1).not() && isLoading.not()) {
+                        isLoading = true
+                        viewModel.getPokemonsFromInteractor(LIMIT, offset+LIMIT)
+                        offset += LIMIT
+                    }
+
+                }
+            })
+
         }
     }
 

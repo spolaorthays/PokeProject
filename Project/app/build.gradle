@@ -28,9 +28,6 @@ android {
     buildFeatures {
         dataBinding true
     }
-//    dataBinding{
-//        enabled = true
-//    }
 
     buildTypes {
         release {
@@ -50,6 +47,8 @@ android {
 dependencies {
 
     implementation project(':network')
+    implementation project(':pokemon_list')
+    implementation project(':share')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'

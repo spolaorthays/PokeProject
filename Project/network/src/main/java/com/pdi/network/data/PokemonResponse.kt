@@ -2,7 +2,7 @@ package com.pdi.network.data
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonResponse (
+data class PokemonResponse<T> (
     @SerializedName("count") //TODO tem que colocar isso para mapear com o GSON
     val count: Int,
     @SerializedName("next")
@@ -10,5 +10,5 @@ data class PokemonResponse (
     @SerializedName("previous")
     val previous: String? = null,
     @SerializedName("results")
-    val results: List<Pokemon>
+    val results: List<T>
 )

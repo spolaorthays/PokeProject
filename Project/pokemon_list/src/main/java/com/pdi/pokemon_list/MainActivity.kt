@@ -6,13 +6,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.pokemon_list.databinding.ActivityMainBinding
-import com.pdi.pokemon_list.domain.PokemonInteractor
-import com.pdi.share.ManageThreads
-import com.pdi.share.ViewModelFactory
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 open class DataBindingHelper: AppCompatActivity() {
@@ -25,18 +22,12 @@ open class DataBindingHelper: AppCompatActivity() {
 
 }
 
-class MainActivity : DataBindingHelper() {
+class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerPokemonAdapter
     private var offset = 0
-
-    @Inject
-    lateinit var interactor: PokemonInteractor //lateinit property interactor has not been initialized
-
-    @Inject
-    lateinit var schedulers: ManageThreads
 
     @Inject
     lateinit var viewModel: MainViewModel
@@ -46,24 +37,11 @@ class MainActivity : DataBindingHelper() {
         var isLoading = false
     }
 
-    //@Inject lateinit var viewModel: MainViewModel
-//    private val viewModel: MainViewModel by lazy {
-//        MainViewModel(
-//                PokemonInteractor(
-//                        PokemonRepository(
-//                                pokemonService),
-//                ManageThreads(AndroidSchedulers.mainThread(), Schedulers.io())
-//        )
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this, ViewModelFactory<MainViewModel> {
-            MainViewModel(interactor, schedulers)
-        })[MainViewModel::class.java]
-
-        binding = bind(R.layout.activity_main) {
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.apply {
             viewmodel = viewModel
             lifecycleOwner = this@MainActivity
         }

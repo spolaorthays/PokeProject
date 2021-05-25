@@ -5,6 +5,7 @@ import com.pdi.pokemon_list.data.local.PokemonRepository
 import com.pdi.pokemon_list.data.service.PokemonService
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.pokemon_list.domain.PokemonInteractor
+import com.pdi.share.ManageThreadModule
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -19,7 +20,7 @@ import kotlin.reflect.KClass
 @MapKey
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-@Module
+@Module(includes = [(ManageThreadModule::class)])
 abstract class MainContributeModule {
     @ContributesAndroidInjector(modules = [(MainModule::class), (MainContributesModule::class)])
     abstract fun provideView(): MainActivity
@@ -45,7 +46,4 @@ class MainContributesModule {
 
     @Provides
     fun providePokemonService(retrofit: Retrofit): PokemonService = retrofit.create(PokemonService::class.java)
-
-//    @Provides //TODO vou ter que dar provider disso no modulo SHARE
-//    fun provideManageThreads() = ManageThreads(AndroidSchedulers.mainThread(), Schedulers.io())
 }

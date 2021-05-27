@@ -6,10 +6,6 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
 }
 
-//repositories {
-//    google()
-//}
-
 android {
     compileSdkVersion(30)
     buildToolsVersion("30.0.3")
@@ -47,12 +43,6 @@ android {
                 targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    // To avoid the compile error: "Cannot inline bytecode built with JVM target 1.8
-    // into bytecode that is being built with JVM target 1.6"
-//    kotlinOptions {
-//        val options = this as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-//        options.jvmTarget = "1.8"
-//    }
     kotlinOptions {
         jvmTarget = "1.8"
     }

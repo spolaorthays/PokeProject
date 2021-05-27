@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.pdi.pokemon_list.MainActivity
 import com.pdi.pokeproject.R
 
 class SplashActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         Handler().postDelayed({
-            startActivity(Intent(this, com.pdi.pokemon_list.MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, TIMER)
     }

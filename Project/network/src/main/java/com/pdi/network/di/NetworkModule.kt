@@ -1,7 +1,6 @@
 package com.pdi.network.di
 
 import android.app.Application
-import android.content.Context
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.pdi.network.di.annotations.ChuckIntercetorQualifier
 import com.pdi.network.di.annotations.LoggingIntercetorQualifier

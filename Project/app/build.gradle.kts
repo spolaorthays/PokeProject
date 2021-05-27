@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -63,30 +61,30 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 
-    //Retrofit - Auxiliar na comunicação com a API - Acho que posso remover
+    //Retrofit - Auxiliar na comunicação com a API
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     //Gson - Acho que posso remover
     implementation("com.squareup.retrofit2:converter-gson:2.7.1")
     implementation("com.google.code.gson:gson:2.8.6")
 
-    //Picasso - Gerenciamento de Imagens - Acho que posso remover
+    //Picasso - Gerenciamento de Imagens
     implementation("com.squareup.picasso:picasso:2.71828")
 
-    //Dagger2 - Injeção de Dependência - Acho que posso remover
+    //Dagger2 - Injeção de Dependência
     implementation("com.google.dagger:dagger:2.34.1")
     implementation("com.google.dagger:dagger-android-support:2.34.1")
     kapt("com.google.dagger:dagger-compiler:2.34.1")
     kapt("com.google.dagger:dagger-android-processor:2.34.1")
 
-    //Room - Banco de dados - Acho que posso remover
+    //Room - Banco de dados
     //def room_version = "2.3.0"
     implementation("androidx.room:room-runtime:2.3.0")
     kapt("androidx.room:room-compiler:2.3.0")
     //Room - Test helpers
     testImplementation("androidx.room:room-testing:2.3.0")
 
-    //RxJava - Gerenciamento de Threads - Acho que posso remover
+    //RxJava - Gerenciamento de Threads
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
     implementation("io.reactivex.rxjava2:rxjava:2.2.11")
     implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
@@ -94,12 +92,12 @@ dependencies {
     //Mockk - Testes unitários
     testImplementation("io.mockk:mockk:1.11.0")
 
-    //ViewModel - Necessária para funcionar o 'by viewModels()' - Acho que posso remover
+    //ViewModel - Necessária para funcionar o 'by viewModels()'
     implementation("androidx.fragment:fragment-ktx:1.3.3")
 
     //Android-Gif-Drawable - Renderiza frames para disponibilizar Gifs Animados
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
 
-    //Palette - Lib de cores - Acho que posso remover
+    //Palette - Lib de cores
     implementation("androidx.palette:palette-ktx:1.0.0")
 }

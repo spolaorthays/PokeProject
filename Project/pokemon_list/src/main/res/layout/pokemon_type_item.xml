@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
     xmlns:tool="http://schemas.android.com/tools"
-    app:cardPreventCornerOverlap="true"
-    app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
-    app:cardElevation="5dp">
+    android:background="@drawable/elliptic_card"
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/pokemon_type"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        tool:text="Type" />
 
-        <TextView
-            android:id="@+id/pokemon_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            tool:text="Type"/>
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.pokemon_list.data.remote.Type
+import com.pdi.share.extension.formatFirstLetterToUpperCase
 
 class RecyclerTypePokemonAdapter : RecyclerView.Adapter<RecyclerTypePokemonAdapter.Holder>() {
 
@@ -40,7 +41,7 @@ class RecyclerTypePokemonAdapter : RecyclerView.Adapter<RecyclerTypePokemonAdapt
         private var typePokemon = view.findViewById<TextView>(R.id.pokemon_type)
 
         fun bind(type: Type) {
-            typePokemon.text = type.type.name
+            typePokemon.text = type.type.name.formatFirstLetterToUpperCase()
         }
     }
 }

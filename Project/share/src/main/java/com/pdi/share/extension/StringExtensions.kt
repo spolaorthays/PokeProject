@@ -1,7 +1,7 @@
 package com.pdi.share.extension
 
 fun String.formatFirstLetterToUpperCase(): String {
-    val firstLetter = this.substring(0, 1)
+    val firstLetter = this[0]
     val formatFirstLetter = firstLetter.toUpperCase()
-    return this.replace(firstLetter, formatFirstLetter)
+    return formatFirstLetter+this.substring(1, this.length)
 }

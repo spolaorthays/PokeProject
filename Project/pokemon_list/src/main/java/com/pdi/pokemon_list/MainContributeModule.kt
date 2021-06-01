@@ -5,7 +5,7 @@ import com.pdi.pokemon_list.data.local.PokemonRepository
 import com.pdi.pokemon_list.data.service.PokemonService
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.pokemon_list.domain.PokemonInteractor
-import com.pdi.share.ManageThreadModule
+import com.pdi.share.di.ManageThreadModule
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module

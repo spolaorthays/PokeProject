@@ -1,5 +1,6 @@
-package com.pdi.share
+package com.pdi.share.di
 
+import com.pdi.share.ManageThreads
 import dagger.Module
 import dagger.Provides
 import io.reactivex.android.schedulers.AndroidSchedulers

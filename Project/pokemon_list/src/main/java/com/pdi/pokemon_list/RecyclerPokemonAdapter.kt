@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.pokemon_list.data.remote.Pokemon
+import com.pdi.share.extension.formatFirstLetterToUpperCase
 import com.squareup.picasso.Picasso
 
 class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHolder>() {
@@ -47,7 +48,7 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
         fun bind(pokemon: Pokemon) {
             setupRecycler()
-            name.text = pokemon.name
+            name.text = pokemon.name.formatFirstLetterToUpperCase()
             Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
 //            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(object : Target { //TODO está deixando o carrgamento bem lento
 //                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {

@@ -1,12 +1,16 @@
-package com.pdi.pokemon_list
+package com.pdi.pokemon_list.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.share.extension.formatFirstLetterToUpperCase
 import com.squareup.picasso.Picasso
@@ -20,7 +24,7 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             LayoutInflater
                 .from(parent.context)
                 .inflate(
-                    R.layout.pokemon_item,
+                        R.layout.pokemon_item,
                     parent,
                     false
                 )
@@ -48,6 +52,8 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
         fun bind(pokemon: Pokemon) {
             setupRecycler()
+            //setColorCard(pokemon, card)
+
             name.text = pokemon.name.formatFirstLetterToUpperCase()
             Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
 //            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(object : Target { //TODO está deixando o carrgamento bem lento
@@ -74,6 +80,24 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 //
 //            })
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
+        }
+
+        fun setColorCard(pokemon: Pokemon, cardView: CardView) {
+            val pokemonColor = pokemon.pokemonSpecies.color.name
+            when (pokemonColor) {
+                "red" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.red))
+                "yellow" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.yellow))
+                "green" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.green))
+                "blue" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.blue))
+                "black" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.black))
+                "white" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.white))
+                "brown" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.brown))
+                else -> {
+                    Log.d("COR NÃO MAPEADA", "a cor não está na lista mapeada e seu nome é: $pokemonColor")
+                    cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.red))
+                }
+            }
+            pokemon.pokemonSpecies.color
         }
 
         fun setupRecycler() {

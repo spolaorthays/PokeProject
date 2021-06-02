@@ -1,10 +1,11 @@
-package com.pdi.pokemon_list
+package com.pdi.pokemon_list.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.data.remote.Type
 import com.pdi.share.extension.formatFirstLetterToUpperCase
 

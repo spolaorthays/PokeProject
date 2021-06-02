@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.pdi.pokemon_list.MainActivity
+import com.pdi.pokemon_list.view.MainActivity
 import com.pdi.pokeproject.R
 
 class SplashActivity : AppCompatActivity() {

@@ -1,10 +1,12 @@
-package com.pdi.pokemon_list
+package com.pdi.pokemon_list.di
 
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.local.PokemonRepository
 import com.pdi.pokemon_list.data.service.PokemonService
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.pokemon_list.domain.PokemonInteractor
+import com.pdi.pokemon_list.view.MainActivity
+import com.pdi.pokemon_list.view.MainViewModel
 import com.pdi.share.di.ManageThreadModule
 import dagger.Binds
 import dagger.MapKey

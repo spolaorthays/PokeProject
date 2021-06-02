@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.pdi.pokemon_list.MainViewModel" />
+            type="com.pdi.pokemon_list.view.MainViewModel" />
     </data>
 
     <LinearLayout

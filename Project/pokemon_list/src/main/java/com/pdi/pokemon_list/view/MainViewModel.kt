@@ -1,4 +1,4 @@
-package com.pdi.pokemon_list
+package com.pdi.pokemon_list.view
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -19,7 +19,8 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     val pokemonList = MutableLiveData<List<Pokemon>>()
     var pokemonComplete = mutableListOf<Pokemon>()
-    //var colorAtual =
+    val pokemonColorList = MutableLiveData<List<Pokemon>>()
+    var pokemonColorsComplete = mutableListOf<Pokemon>()
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
@@ -70,6 +71,9 @@ class MainViewModel @Inject constructor(
                                     pokemon.pokemonSpecies = pokemonSpecies
 
                                     //TODO pensar agora se coloco como retorno aqui a cor, pois preciso passar esse dado para o recyclerView depois
+//                                    pokemonColorsComplete = mutableListOf()
+//                                    pokemonColorsComplete.add(pokemon)
+//                                    pokemonColorList.value = pokemonColorsComplete
                                 }, onError = {
                             Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
                         }

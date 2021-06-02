@@ -1,4 +1,4 @@
-package com.pdi.pokemon_list
+package com.pdi.pokemon_list.view
 
 import android.app.Activity
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.databinding.ActivityMainBinding
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
@@ -77,7 +78,6 @@ class MainActivity : DaggerAppCompatActivity() {
 
                 }
             })
-
         }
     }
 

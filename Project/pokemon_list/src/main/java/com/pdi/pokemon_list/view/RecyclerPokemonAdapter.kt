@@ -52,7 +52,7 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
         fun bind(pokemon: Pokemon) {
             setupRecycler()
-            //setColorCard(pokemon, card)
+            setColorCard(pokemon, card)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
             Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
@@ -82,7 +82,7 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
         }
 
-        fun setColorCard(pokemon: Pokemon, cardView: CardView) {
+        fun setColorCard(pokemon: Pokemon, cardView: CardView) {  //TODO melhorar os hexadecimais, e mudar a cor da fonte quando tiver cores mais claras
             val pokemonColor = pokemon.pokemonSpecies.color.name
             when (pokemonColor) {
                 "red" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.red))

@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.remote.Pokemon
-import com.pdi.pokemon_list.data.remote.PokemonDetails
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.share.ManageThreads
 import io.reactivex.disposables.CompositeDisposable
@@ -19,8 +18,6 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     val pokemonList = MutableLiveData<List<Pokemon>>()
     var pokemonComplete = mutableListOf<Pokemon>()
-    val pokemonColorList = MutableLiveData<List<Pokemon>>()
-    var pokemonColorsComplete = mutableListOf<Pokemon>()
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
@@ -49,11 +46,8 @@ class MainViewModel @Inject constructor(
                         .subscribeBy(
                                 onSuccess = { details ->
                                     pokemon.pokemonDetails = details
-                                    pokemonComplete = mutableListOf()
-                                    pokemonComplete.add(pokemon)
-                                    pokemonList.value = pokemonComplete
 
-                                    getPokemonColorFromInteractor(details, pokemon)
+                                    getPokemonColorFromInteractor(pokemon)
                                 }, onError = {
                             Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
                         }
@@ -61,25 +55,23 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    private fun getPokemonColorFromInteractor(details: PokemonDetails, pokemon: Pokemon) {
+    //Como são requisições encadeadas, a lista tem que ser setada na última requisição
+    private fun getPokemonColorFromInteractor(pokemon: Pokemon) {
         compositeDisposable.add(
-                interactor.getPokemonColorRepository(details.species.url)
+                interactor.getPokemonColorRepository(pokemon.pokemonDetails.species.url)
                         .subscribeOn(scheduler.io)
                         .observeOn(scheduler.main)
                         .subscribeBy(
                                 onSuccess = { pokemonSpecies ->
                                     pokemon.pokemonSpecies = pokemonSpecies
-
-                                    //TODO pensar agora se coloco como retorno aqui a cor, pois preciso passar esse dado para o recyclerView depois
-//                                    pokemonColorsComplete = mutableListOf()
-//                                    pokemonColorsComplete.add(pokemon)
-//                                    pokemonColorList.value = pokemonColorsComplete
+                                    pokemonComplete = mutableListOf()
+                                    pokemonComplete.add(pokemon)
+                                    pokemonList.value = pokemonComplete
                                 }, onError = {
                             Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
                         }
                         )
         )
     }
-
 
 }

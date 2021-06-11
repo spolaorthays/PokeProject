@@ -51,12 +51,12 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
         private var card = view.findViewById<CardView>(R.id.pokemon_card)
 
         fun bind(pokemon: Pokemon) {
-            setupRecycler()
-            setColorCard(pokemon, card)
+            setupRecycler(pokemon)
+            setColorCard(pokemon)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
             Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
-//            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(object : Target { //TODO está deixando o carrgamento bem lento
+//            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(object : Target { //TODO está deixando o carrgamento bem lento (Inserir apenas na parte de detalhes)
 //                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
 //                    image.setImageBitmap(bitmap)
 //                    bitmap?.let {
@@ -82,26 +82,31 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
         }
 
-        fun setColorCard(pokemon: Pokemon, cardView: CardView) {  //TODO melhorar os hexadecimais, e mudar a cor da fonte quando tiver cores mais claras
+        fun setColorCard(pokemon: Pokemon) {
             val pokemonColor = pokemon.pokemonSpecies.color.name
             when (pokemonColor) {
-                "red" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.red))
-                "yellow" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.yellow))
-                "green" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.green))
-                "blue" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.blue))
-                "black" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.black))
-                "white" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.white))
-                "brown" -> cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.brown))
+                "red" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.red)) //#FF0000
+                "yellow" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.yellow)) //#FFFF00
+                "green" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.green)) //#008000
+                "blue" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.blue)) //#0000FF
+                "black" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.black))
+                "white" -> {
+                    card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.white_card))
+                    name.setTextColor(ContextCompat.getColor(name.context, R.color.gray))
+                }
+                "brown" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.brown))
+                "pink" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.pink)) //#FF748C
+                "gray" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.gray))
+                "purple" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.purple))
                 else -> {
                     Log.d("COR NÃO MAPEADA", "a cor não está na lista mapeada e seu nome é: $pokemonColor")
-                    cardView.setCardBackgroundColor(ContextCompat.getColor(cardView.context, R.color.red))
+                    card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.red))
                 }
             }
-            pokemon.pokemonSpecies.color
         }
 
-        fun setupRecycler() {
-            adapter = RecyclerTypePokemonAdapter()
+        fun setupRecycler(pokemon: Pokemon) {
+            adapter = RecyclerTypePokemonAdapter(pokemon)
             recyclerView.adapter = adapter
         }
     }

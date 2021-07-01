@@ -15,7 +15,7 @@ import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.share.extension.formatFirstLetterToUpperCase
 import com.squareup.picasso.Picasso
 
-class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHolder>() {
+class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHolder>() { //TODO olhar viewBinding p/ prox etapa
 
     var listPokemon = mutableListOf<Pokemon>()
 
@@ -55,30 +55,7 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             setColorCard(pokemon)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
-            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image)
-//            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(object : Target { //TODO está deixando o carrgamento bem lento (Inserir apenas na parte de detalhes)
-//                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-//                    image.setImageBitmap(bitmap)
-//                    bitmap?.let {
-//                        Palette.Builder(bitmap).generate { palette ->
-//                            palette?.vibrantSwatch?.rgb.let { paletteColor ->
-//                                paletteColor?.let { color ->
-//                                    card.setCardBackgroundColor(color)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-//                    image.setImageDrawable(errorDrawable)
-//                }
-//
-//                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-//                    image.setImageDrawable(placeHolderDrawable)
-//                }
-//
-//            })
+            Picasso.get().load(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault).into(image) //TODO fazer extension para um imageView
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
         }
 

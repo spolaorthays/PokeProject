@@ -43,7 +43,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val LIMIT = 10
-        var isLoading = false
+        var isLoading = false //Usar MutableLiveData
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +63,7 @@ class MainActivity : DaggerAppCompatActivity() {
         showOptions()
     }
 
-    private fun exitApp() {
+    private fun exitApp() { //TODO Trocar por um X o ícone
         val btBack = binding.toolbar.findViewById<ImageView>(R.id.button_back)
         btBack.setOnClickListener {
             AlertDialog.Builder(this)

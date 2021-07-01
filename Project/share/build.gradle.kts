@@ -66,4 +66,7 @@ dependencies {
 //    //ViewModel - Necessária para funcionar o 'by viewModels()'
 //    implementation "androidx.fragment:fragment-ktx:1.3.3"
 
+    //Picasso - Gerenciamento de Imagens
+    implementation("com.squareup.picasso:picasso:2.71828")
+
 }

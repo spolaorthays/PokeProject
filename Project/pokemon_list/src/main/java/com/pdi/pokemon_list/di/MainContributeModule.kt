@@ -33,7 +33,7 @@ abstract class MainModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class) //Por estar com escopo além da activiy é necessário esse tratamento do viewModel
+    @ViewModelKey(MainViewModel::class)
     abstract fun bindLoginViewModel(viewModel: MainViewModel): ViewModel
 }
 

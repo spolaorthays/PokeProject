@@ -53,7 +53,7 @@ class RecyclerTypePokemonAdapter(var pokemon: Pokemon) : RecyclerView.Adapter<Re
         fun setColorText(pokemon: Pokemon) {
             val pokemonColor = pokemon.pokemonSpecies.color.name
             return when (pokemonColor) {
-                "red" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.red))
+                "red" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.red_700))
                 "yellow" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.yellow))
                 "green" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.green))
                 "blue" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.blue))

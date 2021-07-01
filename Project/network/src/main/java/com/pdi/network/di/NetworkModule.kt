@@ -24,7 +24,7 @@ class NetworkModule {
         okHttpClient: OkHttpClient
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2/")
+            .baseUrl("https://pokeapi.co/api/v2/") //TODO usar url constant
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -46,8 +46,8 @@ class NetworkModule {
 
     @ChuckIntercetorQualifier //Isso funciona no lugar do @Named
     @Provides
-    fun provideChuckInterceptor(context: Application): Interceptor =  //TODO porque não consigo pega o context da classe Context? Para fucionar teve qe vir do Application
-        ChuckInterceptor(context)
+    fun provideChuckInterceptor(application: Application): Interceptor =  //TODO porque não consigo pega o context da classe Context? Para fucionar teve qe vir do Application
+        ChuckInterceptor(application.baseContext)
 
     @LoggingIntercetorQualifier
     @Provides

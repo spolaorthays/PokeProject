@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
         const val TIMER = 3000L
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) { //TODO usar Glide para Gifs
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 

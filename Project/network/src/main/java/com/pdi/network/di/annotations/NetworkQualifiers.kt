@@ -7,5 +7,5 @@ import javax.inject.Qualifier
 annotation class ChuckIntercetorQualifier
 
 @Qualifier
-@Retention(AnnotationRetention.BINARY)
+@Retention(AnnotationRetention.BINARY) //TODO o que é Binary?
 annotation class LoggingIntercetorQualifier

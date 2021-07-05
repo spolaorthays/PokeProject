@@ -86,6 +86,7 @@ dependencies {
     //Palette - Lib de cores
     implementation("androidx.palette:palette-ktx:1.0.0")
 
-    //Picasso - Gerenciamento de Imagens
-    implementation("com.squareup.picasso:picasso:2.71828")
+    //Glide - Gerenciamento de Imagens
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 }

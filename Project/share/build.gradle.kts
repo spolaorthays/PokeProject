@@ -63,10 +63,7 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.11")
     implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
 
-//    //ViewModel - Necessária para funcionar o 'by viewModels()'
-//    implementation "androidx.fragment:fragment-ktx:1.3.3"
-
-    //Picasso - Gerenciamento de Imagens
-    implementation("com.squareup.picasso:picasso:2.71828")
-
+    //Glide - Gerenciamento de Imagens
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 }

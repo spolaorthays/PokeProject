@@ -4,8 +4,12 @@ import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class ChuckIntercetorQualifier
+annotation class ChuckInterceptorQualifier
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY) //TODO o que é Binary?
-annotation class LoggingIntercetorQualifier
+annotation class LoggingInterceptorQualifier
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY) //TODO o que é Binary?
+annotation class BaseUrlQualifier

@@ -1,9 +1,12 @@
 package com.pdi.network.di
 
 import android.app.Application
+import android.os.Build
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import com.pdi.network.di.annotations.ChuckIntercetorQualifier
-import com.pdi.network.di.annotations.LoggingIntercetorQualifier
+import com.pdi.network.di.annotations.BaseUrlQualifier
+import com.pdi.network.di.annotations.ChuckInterceptorQualifier
+import com.pdi.network.di.annotations.LoggingInterceptorQualifier
+import com.pdi.network.utils.Constants
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
@@ -21,35 +24,45 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(
-        okHttpClient: OkHttpClient
+        okHttpClient: OkHttpClient,
+        @BaseUrlQualifier baseUrl: String
     ): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/api/v2/") //TODO usar url constant
+            .baseUrl(baseUrl)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
+    @BaseUrlQualifier
+    @Singleton
+    @Provides
+    fun provideBaseUrl(): String = Constants.BASE_URL
+
     @Provides
     fun provideOkHttp(
-            @ChuckIntercetorQualifier chuck: Interceptor,
-            @LoggingIntercetorQualifier logging: Interceptor
+            @ChuckInterceptorQualifier chuck: Interceptor,
+            @LoggingInterceptorQualifier logging: Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
                 .addInterceptor(chuck)
                 .addInterceptor(logging)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
                 .build()
 
 
-    @ChuckIntercetorQualifier //Isso funciona no lugar do @Named
+    @ChuckInterceptorQualifier //Isso funciona no lugar do @Named
     @Provides
     fun provideChuckInterceptor(application: Application): Interceptor =  //TODO porque não consigo pega o context da classe Context? Para fucionar teve qe vir do Application
-        ChuckInterceptor(application.baseContext)
+            //if (Build.TYPE != "release") {
+                ChuckInterceptor(application.baseContext)
+//            } else {
+//                null
+//            }
 
-    @LoggingIntercetorQualifier
+    @LoggingInterceptorQualifier
     @Provides
     fun provideLoggingInterceptor(): Interceptor  {
         val logging = HttpLoggingInterceptor()

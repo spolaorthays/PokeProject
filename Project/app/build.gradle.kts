@@ -68,8 +68,9 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.7.1")
     implementation("com.google.code.gson:gson:2.8.6")
 
-    //Picasso - Gerenciamento de Imagens
-    implementation("com.squareup.picasso:picasso:2.71828")
+    //Glide - Gerenciamento de Imagens
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
     //Dagger2 - Injeção de Dependência
     implementation("com.google.dagger:dagger:2.34.1")
@@ -94,10 +95,4 @@ dependencies {
 
     //ViewModel - Necessária para funcionar o 'by viewModels()'
     implementation("androidx.fragment:fragment-ktx:1.3.3")
-
-    //Android-Gif-Drawable - Renderiza frames para disponibilizar Gifs Animados
-    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
-
-    //Palette - Lib de cores
-    implementation("androidx.palette:palette-ktx:1.0.0")
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="initial_text">Iniciando sua Pokedex…</string>
+    <string name="author_text">Desenvolvido por Thays Spolaor</string>
 </resources>

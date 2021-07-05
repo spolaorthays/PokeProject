@@ -5,14 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.domain.PokemonContract
-import com.pdi.share.ManageThreads
+import com.pdi.share.AppSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val interactor: PokemonContract.Interactor,
-    private val scheduler: ManageThreads
+    private val scheduler: AppSchedulers
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

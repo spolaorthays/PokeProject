@@ -7,7 +7,7 @@ import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.pokemon_list.domain.PokemonInteractor
 import com.pdi.pokemon_list.view.MainActivity
 import com.pdi.pokemon_list.view.MainViewModel
-import com.pdi.share.di.ManageThreadModule
+import com.pdi.share.di.AppSchedulerModule
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -22,7 +22,7 @@ import kotlin.reflect.KClass
 @MapKey
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
-@Module(includes = [(ManageThreadModule::class)])
+@Module(includes = [(AppSchedulerModule::class)])
 abstract class MainContributeModule {
     @ContributesAndroidInjector(modules = [(MainModule::class), (MainContributesModule::class)])
     abstract fun provideView(): MainActivity

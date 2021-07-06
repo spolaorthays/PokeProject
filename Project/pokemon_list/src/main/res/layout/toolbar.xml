@@ -8,14 +8,14 @@
     android:paddingTop="8dp">
 
     <ImageView
-        android:id="@+id/button_back"
+        android:id="@+id/button_close"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_img_back" />
+        app:srcCompat="@drawable/ic_img_close" />
 
     <ImageView
         android:id="@+id/button_options"

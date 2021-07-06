@@ -20,13 +20,13 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeHolder {
         return PokeHolder(
-            LayoutInflater
-                .from(parent.context)
-                .inflate(
-                        R.layout.pokemon_item,
-                    parent,
-                    false
-                )
+                LayoutInflater
+                        .from(parent.context)
+                        .inflate(
+                                R.layout.pokemon_item,
+                                parent,
+                                false
+                        )
         )
     }
 
@@ -54,7 +54,11 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             setColorCard(pokemon)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
-            image.loadImage(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault)
+            ContextCompat.getDrawable(image.context, R.drawable.loading)?.let {
+                image.loadImage(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault,
+                    it
+                )
+            }
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
         }
 

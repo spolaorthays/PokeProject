@@ -2,7 +2,6 @@ package com.pdi.pokemon_list.view
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
@@ -15,9 +14,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.databinding.ActivityMainBinding
+import com.pdi.pokemon_list.viewmodel.MainViewModel
+import com.pdi.pokemon_list.viewmodel.MainViewModelEvent
+import com.pdi.share.extension.observeValue
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -43,7 +46,6 @@ class MainActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val LIMIT = 10
-        var isLoading = false //Usar MutableLiveData
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,10 +63,11 @@ class MainActivity : DaggerAppCompatActivity() {
         setupViewModel()
         exitApp()
         showOptions()
+        watchEvent()
     }
 
-    private fun exitApp() { //TODO Trocar por um X o ícone
-        val btBack = binding.toolbar.findViewById<ImageView>(R.id.button_back)
+    private fun exitApp() {
+        val btBack = binding.toolbar.findViewById<ImageView>(R.id.button_close)
         btBack.setOnClickListener {
             AlertDialog.Builder(this)
                     .setTitle(R.string.alert_title)
@@ -99,8 +102,9 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setupRecycler() {
+    private fun setupRecycler() { //TODO aqui eu deveria estar pegando pelo binding e n referenciand o id
         recyclerView = findViewById(R.id.recycler_pokemon_list)
+
         adapter = RecyclerPokemonAdapter()
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.setHasFixedSize(true)
@@ -118,8 +122,7 @@ class MainActivity : DaggerAppCompatActivity() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
-                    if (recyclerView.canScrollVertically(1).not() && isLoading.not()) {
-                        isLoading = true
+                    if (recyclerView.canScrollVertically(1).not() && viewModel.loading.value == false) {
                         viewModel.getPokemonsFromInteractor(LIMIT, offset+ LIMIT)
                         offset += LIMIT
                     }
@@ -127,6 +130,19 @@ class MainActivity : DaggerAppCompatActivity() {
                 }
             })
         }
+    }
+
+    fun watchEvent() {
+        observeValue(viewModel.eventState) { event ->
+            when (event) {
+                is MainViewModelEvent.Loading -> showLoading()
+            }
+        }
+    }
+
+    fun showLoading() {
+        val progress = findViewById<CircularProgressIndicator>(R.id.progress_circular)
+        progress.show()
     }
 
 }

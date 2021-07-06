@@ -3,6 +3,7 @@ package com.pdi.network.di
 import android.app.Application
 import android.os.Build
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.pdi.network.BuildConfig
 import com.pdi.network.di.annotations.BaseUrlQualifier
 import com.pdi.network.di.annotations.ChuckInterceptorQualifier
 import com.pdi.network.di.annotations.LoggingInterceptorQualifier
@@ -43,24 +44,24 @@ class NetworkModule {
     fun provideOkHttp(
             @ChuckInterceptorQualifier chuck: Interceptor,
             @LoggingInterceptorQualifier logging: Interceptor
-    ): OkHttpClient =
-        OkHttpClient.Builder()
-                .addInterceptor(chuck)
-                .addInterceptor(logging)
-                .readTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
-                .connectTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
-                .build()
-
+    ): OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+        if (BuildConfig.BUILD_TYPE != Constants.TYPE_RELEASE) {
+            okHttpClient.addInterceptor(chuck)
+            okHttpClient.addInterceptor(logging)
+        }
+        okHttpClient.apply {
+            this.readTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+            this.connectTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+            this.writeTimeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+        }
+        return okHttpClient.build()
+    }
 
     @ChuckInterceptorQualifier //Isso funciona no lugar do @Named
     @Provides
-    fun provideChuckInterceptor(application: Application): Interceptor =  //TODO porque não consigo pega o context da classe Context? Para fucionar teve qe vir do Application
-            //if (Build.TYPE != "release") {
-                ChuckInterceptor(application.baseContext)
-//            } else {
-//                null
-//            }
+    fun provideChuckInterceptor(application: Application): Interceptor =
+        ChuckInterceptor(application.baseContext)
 
     @LoggingInterceptorQualifier
     @Provides

@@ -28,7 +28,8 @@ class SplashActivity : AppCompatActivity() {
     private fun configSplash() {
         val imageView = findViewById<View>(R.id.gif_splash) as ImageView
         Glide
-            .with(this).asGif()
+            .with(this)
+            .asGif()
             .load(R.raw.pikachu_splash)
             .circleCrop()
             .into(imageView)

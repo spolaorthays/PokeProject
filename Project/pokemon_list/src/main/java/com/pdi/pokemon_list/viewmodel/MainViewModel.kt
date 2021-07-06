@@ -1,4 +1,4 @@
-package com.pdi.pokemon_list.view
+package com.pdi.pokemon_list.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -18,23 +18,30 @@ class MainViewModel @Inject constructor(
     private val compositeDisposable = CompositeDisposable()
     val pokemonList = MutableLiveData<List<Pokemon>>()
     var pokemonComplete = mutableListOf<Pokemon>()
+    var loading = MutableLiveData<Boolean>()
+    val eventState = MutableLiveData<MainViewModelEvent>()
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
-                interactor.getPokemonListFromRepository(limit, offset)
-                        .subscribeOn(scheduler.io)
-                        .observeOn(scheduler.main)
-                        .subscribeBy(
-                                onSuccess = {
-                                    MainActivity.isLoading = false
-                                    it.forEach { pokemon ->
-                                        getPokemonDetailFromInteractor(pokemon)
-                                    }
-                                },
-                                onError = {
-                                    Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
-                                }
-                        )
+            interactor.getPokemonListFromRepository(limit, offset)
+                .subscribeOn(scheduler.io)
+                .observeOn(scheduler.main)
+                .doOnSubscribe {
+                    emitEvent(MainViewModelEvent.Loading)
+                    loading.value = true
+
+                }
+                .doFinally { loading.value = false }
+                .subscribeBy(
+                    onSuccess = {
+                        it.forEach { pokemon ->
+                            getPokemonDetailFromInteractor(pokemon)
+                        }
+                    },
+                    onError = {
+                        Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
+                    }
+                )
         )
     }
 
@@ -72,6 +79,10 @@ class MainViewModel @Inject constructor(
                         }
                         )
         )
+    }
+
+    private fun emitEvent(state: MainViewModelEvent) {
+        eventState.value = state
     }
 
 }

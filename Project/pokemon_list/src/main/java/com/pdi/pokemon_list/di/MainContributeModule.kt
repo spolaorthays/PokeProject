@@ -6,7 +6,7 @@ import com.pdi.pokemon_list.data.service.PokemonService
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.pokemon_list.domain.PokemonInteractor
 import com.pdi.pokemon_list.view.MainActivity
-import com.pdi.pokemon_list.view.MainViewModel
+import com.pdi.pokemon_list.viewmodel.MainViewModel
 import com.pdi.share.di.AppSchedulerModule
 import dagger.Binds
 import dagger.MapKey

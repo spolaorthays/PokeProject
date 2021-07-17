@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.data.remote.Type
+import com.pdi.pokemon_list.extension.changeTextColor
 import com.pdi.share.extension.formatFirstLetterToUpperCase
 
 class RecyclerTypePokemonAdapter(var pokemon: Pokemon) : RecyclerView.Adapter<RecyclerTypePokemonAdapter.Holder>() {
@@ -47,29 +47,7 @@ class RecyclerTypePokemonAdapter(var pokemon: Pokemon) : RecyclerView.Adapter<Re
 
         fun bind(type: Type) {
             typePokemon.text = type.type.name.formatFirstLetterToUpperCase()
-            setColorText(pokemon)
-        }
-
-        fun setColorText(pokemon: Pokemon) {
-            val pokemonColor = pokemon.pokemonSpecies.color.name
-            return when (pokemonColor) {
-                "red" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.red_700))
-                "yellow" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.yellow_700))
-                "green" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.green_700))
-                "blue" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.blue_700))
-                "black" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.black))
-                "white" -> {
-                    linearLayout.setBackgroundResource(R.drawable.elliptic_card_gray)
-                    typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.white_card))
-                }
-                "brown" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.brown_700))
-                "pink" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.pink_700))
-                "gray" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.gray_700))
-                "purple" -> typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.purple_700))
-                else -> {
-                    typePokemon.setTextColor(ContextCompat.getColor(typePokemon.context, R.color.red_700))
-                }
-            }
+            typePokemon.changeTextColor(pokemon, typePokemon.context, linearLayout)
         }
     }
 }

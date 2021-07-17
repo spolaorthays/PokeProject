@@ -29,7 +29,6 @@ class MainViewModel @Inject constructor(
                 .doOnSubscribe {
                     emitEvent(MainViewModelEvent.Loading)
                     loading.value = true
-
                 }
                 .doFinally { loading.value = false }
                 .subscribeBy(

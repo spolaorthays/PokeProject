@@ -1,6 +1,5 @@
 package com.pdi.pokemon_list.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.pdi.pokemon_list.R
 import com.pdi.pokemon_list.data.remote.Pokemon
+import com.pdi.pokemon_list.extension.changeBackgroundColor
 import com.pdi.share.extension.formatFirstLetterToUpperCase
 import com.pdi.share.extension.loadImage
 
@@ -51,38 +51,15 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
 
         fun bind(pokemon: Pokemon) {
             setupRecycler(pokemon)
-            setColorCard(pokemon)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
             ContextCompat.getDrawable(image.context, R.drawable.loading)?.let {
-                image.loadImage(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault,
-                    it
+                image.loadImage(
+                    pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault, it
                 )
             }
+            card.changeBackgroundColor(pokemon, card.context, name)
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
-        }
-
-        fun setColorCard(pokemon: Pokemon) {
-            val pokemonColor = pokemon.pokemonSpecies.color.name
-            when (pokemonColor) {
-                "red" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.red)) //#FF0000
-                "yellow" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.yellow)) //#FFFF00
-                "green" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.green)) //#008000
-                "blue" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.blue)) //#0000FF
-                "black" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.black))
-                "white" -> {
-                    card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.white_card))
-                    name.setTextColor(ContextCompat.getColor(name.context, R.color.gray))
-                }
-                "brown" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.brown))
-                "pink" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.pink)) //#FF748C
-                "gray" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.gray))
-                "purple" -> card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.purple))
-                else -> { //TODO fazer random e salvar no shared essa cor ligada ao pokemon
-                    Log.d("COR NÃO MAPEADA", "a cor não está na lista mapeada e seu nome é: $pokemonColor")
-                    card.setCardBackgroundColor(ContextCompat.getColor(card.context, R.color.red))
-                }
-            }
         }
 
         fun setupRecycler(pokemon: Pokemon) {

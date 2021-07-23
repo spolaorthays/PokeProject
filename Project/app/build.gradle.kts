@@ -55,11 +55,12 @@ dependencies {
     implementation(project(":network"))
     implementation(project(":pokemon_list"))
     implementation(project(":share"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.32")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+
+    implementation(Dependencies.kotlinStandardLibrary)
+    implementation(Dependencies.AndroidLibrarys.appCompat)
+    implementation(Dependencies.AndroidLibrarys.constraintLayout)
+    implementation(Dependencies.AndroidLibrarys.coreKtx)
+    implementation(Dependencies.AndroidLibrarys.materialDesign)
 
     //Testes
     testImplementation("junit:junit:4.+")
@@ -67,7 +68,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 
     //Retrofit - Auxiliar na comunicação com a API
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(Dependencies.Retrofit.retrofit)
 
     //Gson - Acho que posso remover
     implementation("com.squareup.retrofit2:converter-gson:2.7.1")

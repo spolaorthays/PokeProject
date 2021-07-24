@@ -37,7 +37,6 @@ open class DataBindingHelper: AppCompatActivity() {
 class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerPokemonAdapter
     private var offset = 0
 
@@ -102,13 +101,11 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun setupRecycler() { //TODO aqui eu deveria estar pegando pelo binding e n referenciand o id
-        recyclerView = findViewById(R.id.recycler_pokemon_list)
-
+    private fun setupRecycler() {
         adapter = RecyclerPokemonAdapter()
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.adapter = adapter
+        binding.recyclerPokemonList.layoutManager = GridLayoutManager(this, 2)
+        binding.recyclerPokemonList.setHasFixedSize(true)
+        binding.recyclerPokemonList.adapter = adapter
     }
 
     private fun setupViewModel() {
@@ -117,8 +114,7 @@ class MainActivity : DaggerAppCompatActivity() {
         viewModel.pokemonList.observeForever { listPoke ->
             adapter.updatePokemons(listPoke)
 
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
+            binding.recyclerPokemonList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 

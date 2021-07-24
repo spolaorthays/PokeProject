@@ -1,26 +1,26 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("org.jetbrains.kotlin.kapt")
+    id(Plugins.ANDROID_APPLICATION)
+    id(Plugins.ANDROID_KOTLIN)
+    id(Plugins.KAPT)
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion("30.0.3")
+    compileSdkVersion(Configs.COMPILE_VERSION)
+    buildToolsVersion(Configs.BUILD_TOOLS_VERSION)
 
     defaultConfig {
-        applicationId("com.pdi.pokeproject")
-        minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
+        applicationId(Configs.APPLICATION_ID)
+        minSdkVersion(Configs.MIN_SDK)
+        targetSdkVersion(Configs.TARGET_VERSION)
+        versionCode(Configs.VERSION_CODE)
+        versionName(Configs.VERSION_NAME)
 
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner(Configs.JUNIT_RUNNER)
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments["room.incremental"] = "true"
-                arguments["kapt.kotlin.generated"] = "true"
+                arguments[Configs.ROOM_INCREMENTAL] = Configs.TRUE_STRING
+                arguments[Configs.KAPT_GENERATED] = Configs.TRUE_STRING
             }
         }
     }
@@ -30,75 +30,74 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        getByName(Configs.RELEASE) {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(getDefaultProguardFile(Configs.PROGARD_OPTIMIZE), Configs.PROGARD_RULES)
         }
 
-        getByName("debug") {
-            applicationIdSuffix = ".debug"
+        getByName(Configs.DEBUG) {
+            applicationIdSuffix = Configs.POINT_DEBUG
             isDebuggable = true
         }
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Configs.JVM_TARGET
     }
 }
 
 dependencies {
-    implementation(project(":network"))
-    implementation(project(":pokemon_list"))
-    implementation(project(":share"))
+    implementation(project(Modules.NETWORK))
+    implementation(project(Modules.POKEMON_LIST))
+    implementation(project(Modules.SHARE))
+    implementation(project(Modules.FAVORITE))
 
-    implementation(Dependencies.kotlinStandardLibrary)
-    implementation(Dependencies.AndroidLibrarys.appCompat)
-    implementation(Dependencies.AndroidLibrarys.constraintLayout)
-    implementation(Dependencies.AndroidLibrarys.coreKtx)
-    implementation(Dependencies.AndroidLibrarys.materialDesign)
+    implementation(Dependencies.KOTLIN_STD_LIBRARY)
+    implementation(Dependencies.AndroidLibrarys.APPCOMPAT)
+    implementation(Dependencies.AndroidLibrarys.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.AndroidLibrarys.CORE_KTX)
+    implementation(Dependencies.AndroidLibrarys.MATERIAL_DESIGN)
 
     //Testes
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    testImplementation(Dependencies.UnitTests.JUNIT)
+    androidTestImplementation(Dependencies.UnitTests.JUNIT_EXT)
+    androidTestImplementation(Dependencies.UnitTests.ESPRESSO)
 
     //Retrofit - Auxiliar na comunicação com a API
-    implementation(Dependencies.Retrofit.retrofit)
+    implementation(Dependencies.Retrofit.RETROFIT)
 
     //Gson - Acho que posso remover
-    implementation("com.squareup.retrofit2:converter-gson:2.7.1")
-    implementation("com.google.code.gson:gson:2.8.6")
+    implementation(Dependencies.Gson.GSON_CONVERTER)
+    implementation(Dependencies.Gson.GSON)
 
     //Glide - Gerenciamento de Imagens
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    implementation(Dependencies.Glide.GLIDE)
+    annotationProcessor(Dependencies.Glide.GLIDE_COMPILER)
 
     //Dagger2 - Injeção de Dependência
-    implementation("com.google.dagger:dagger:2.34.1")
-    implementation("com.google.dagger:dagger-android-support:2.34.1")
-    kapt("com.google.dagger:dagger-compiler:2.34.1")
-    kapt("com.google.dagger:dagger-android-processor:2.34.1")
+    implementation(Dependencies.Dagger.DAGGER)
+    implementation(Dependencies.Dagger.DAGGER_ANDROID_SUP)
+    kapt(Dependencies.Dagger.DAGGER_COMPILER)
+    kapt(Dependencies.Dagger.DAGGER_ANDROID_PROCESSOR)
 
     //Room - Banco de dados
-    //def room_version = "2.3.0"
-    implementation("androidx.room:room-runtime:2.3.0")
-    kapt("androidx.room:room-compiler:2.3.0")
-    //Room - Test helpers
-    testImplementation("androidx.room:room-testing:2.3.0")
+    implementation(Dependencies.Room.ROOM)
+    kapt(Dependencies.Room.ROOM_COMPILER)
+    testImplementation(Dependencies.Room.ROOM_TESTING)
 
     //RxJava - Gerenciamento de Threads
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.11")
-    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
+    implementation(Dependencies.RxJava.RXJAVA)
+    implementation(Dependencies.RxJava.RXJAVA_ANDROID)
+    implementation(Dependencies.RxJava.RXJAVA_KOTLIN)
 
     //Mockk - Testes unitários
-    testImplementation("io.mockk:mockk:1.11.0")
+    testImplementation(Dependencies.MOCKK)
 
     //ViewModel - Necessária para funcionar o 'by viewModels()'
-    implementation("androidx.fragment:fragment-ktx:1.3.3")
+    implementation(Dependencies.VIEW_MODEL)
 }

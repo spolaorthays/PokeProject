@@ -2,4 +2,6 @@
 <resources>
     <string name="initial_text">Iniciando sua Pokedex…</string>
     <string name="author_text">Desenvolvido por Thays Spolaor</string>
+    <string name="try_again_text">Tente novamente</string>
+    <string name="verify_connection">"Verifique sua conexão com a Internet"</string>
 </resources>

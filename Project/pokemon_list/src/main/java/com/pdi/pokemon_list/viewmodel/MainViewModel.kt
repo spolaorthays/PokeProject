@@ -2,6 +2,7 @@ package com.pdi.pokemon_list.viewmodel
 
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -10,6 +11,7 @@ import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.share.AppSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -22,7 +24,8 @@ class MainViewModel @Inject constructor(
     var pokemonComplete = mutableListOf<Pokemon>()
     var loading = MutableLiveData<Boolean>()
     val eventState = MutableLiveData<MainViewModelEvent>()
-    val progress = MutableLiveData<Int>()
+    val progressVisibility = MutableLiveData<Int>()
+    val tryAgainVisibility = MutableLiveData<Int>()
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
@@ -35,7 +38,7 @@ class MainViewModel @Inject constructor(
                 }
                 .doAfterSuccess {
                     loading.value = false
-                    emitEvent(MainViewModelEvent.Loading)
+                    emitEvent(MainViewModelEvent.Loaded)
                 }
                 .subscribeBy(
                     onSuccess = {

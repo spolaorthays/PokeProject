@@ -14,11 +14,12 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.pdi.pokemon_list.R
+import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.databinding.ActivityMainBinding
 import com.pdi.pokemon_list.viewmodel.MainViewModel
 import com.pdi.pokemon_list.viewmodel.MainViewModelEvent
@@ -130,29 +131,42 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    fun watchEvent() {
+    private fun watchEvent() {
         observeValue(viewModel.eventState) { event ->
             when (event) {
                 is MainViewModelEvent.Loading -> showLoading()
                 is MainViewModelEvent.Loaded -> hideLoading()
-                is MainViewModelEvent.Error -> errorApi()
+                is MainViewModelEvent.Error -> {
+                    errorApi()
+                    callTryAgain()
+                }
             }
         }
     }
 
     private fun showLoading() {
-        viewModel.progress.value = View.VISIBLE
+        viewModel.progressVisibility.value = View.VISIBLE
         binding.progressCircular.show()
+        viewModel.tryAgainVisibility.value = View.GONE
     }
 
     private fun hideLoading() {
-        viewModel.progress.value = View.GONE
+        viewModel.progressVisibility.value = View.GONE
         binding.progressCircular.hide()
+        viewModel.tryAgainVisibility.value = View.GONE
     }
 
     private fun errorApi() {
-        viewModel.progress.value = View.VISIBLE
-        Toast.makeText(this, "Verifique sua conexão com a Internet", Toast.LENGTH_LONG).show()
+        viewModel.progressVisibility.value = View.VISIBLE
+        Toast.makeText(this, getString(R.string.verify_connection), Toast.LENGTH_LONG).show()
+    }
+
+    private fun callTryAgain() {
+        viewModel.tryAgainVisibility.value = View.VISIBLE
+        binding.tryAgain.setOnClickListener {
+            setupViewModel()
+            viewModel.tryAgainVisibility.value = View.GONE
+        }
     }
 
 }

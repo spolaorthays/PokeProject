@@ -17,6 +17,7 @@ import com.pdi.share.extension.loadImage
 class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHolder>() { //TODO olhar viewBinding p/ prox etapa
 
     var listPokemon = mutableListOf<Pokemon>()
+    val pokemonAddedMap = mutableMapOf<String, Boolean>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeHolder {
         return PokeHolder(
@@ -38,7 +39,12 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
     override fun getItemCount(): Int = listPokemon.size
 
     fun updatePokemons(pokeList: List<Pokemon>) {
-        listPokemon.addAll(pokeList)
+        pokeList.forEach { pokemon ->
+            if (pokemonAddedMap.containsKey(pokemon.name).not()) { //Impede que o Try Again insira os elementos duplicados
+                pokemonAddedMap[pokemon.name] = true
+                listPokemon.add(pokemon)
+            }
+        }
         notifyDataSetChanged()
     }
 
@@ -53,11 +59,12 @@ class RecyclerPokemonAdapter: RecyclerView.Adapter<RecyclerPokemonAdapter.PokeHo
             setupRecycler(pokemon)
 
             name.text = pokemon.name.formatFirstLetterToUpperCase()
-            ContextCompat.getDrawable(image.context, R.drawable.loading)?.let {
-                image.loadImage(
-                    pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault, it
-                )
-            }
+            image.loadImage(pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault)
+//            ContextCompat.getDrawable(image.context, R.drawable.loading)?.let {
+//                image.loadImage(
+//                    pokemon.pokemonDetails.sprites.other.officialArtwotk.frontDefault, it
+//                )
+//            }
             card.changeBackgroundColor(pokemon, card.context, name)
             adapter.updateTypePokemons(pokemon.pokemonDetails.types)
         }

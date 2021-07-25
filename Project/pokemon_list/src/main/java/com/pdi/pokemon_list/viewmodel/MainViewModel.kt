@@ -1,17 +1,13 @@
 package com.pdi.pokemon_list.viewmodel
 
 import android.util.Log
-import android.view.View
-import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.share.AppSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
-import okhttp3.internal.wait
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -80,7 +76,6 @@ class MainViewModel @Inject constructor(
                         .subscribeBy(
                                 onSuccess = { pokemonSpecies ->
                                     pokemon.pokemonSpecies = pokemonSpecies
-                                    pokemonComplete = mutableListOf()
                                     pokemonComplete.add(pokemon)
                                     pokemonList.value = pokemonComplete
                                 }, onError = {

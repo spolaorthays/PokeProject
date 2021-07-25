@@ -1,8 +1,10 @@
 package com.pdi.pokemon_list.viewmodel
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.share.AppSchedulers
@@ -20,6 +22,7 @@ class MainViewModel @Inject constructor(
     var pokemonComplete = mutableListOf<Pokemon>()
     var loading = MutableLiveData<Boolean>()
     val eventState = MutableLiveData<MainViewModelEvent>()
+    val progress = MutableLiveData<Int>()
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
@@ -27,10 +30,13 @@ class MainViewModel @Inject constructor(
                 .subscribeOn(scheduler.io)
                 .observeOn(scheduler.main)
                 .doOnSubscribe {
-                    emitEvent(MainViewModelEvent.Loading)
                     loading.value = true
+                    emitEvent(MainViewModelEvent.Loading)
                 }
-                .doFinally { loading.value = false }
+                .doAfterSuccess {
+                    loading.value = false
+                    emitEvent(MainViewModelEvent.Loading)
+                }
                 .subscribeBy(
                     onSuccess = {
                         it.forEach { pokemon ->
@@ -39,6 +45,7 @@ class MainViewModel @Inject constructor(
                     },
                     onError = {
                         Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
+                        emitEvent(MainViewModelEvent.Error)
                     }
                 )
         )

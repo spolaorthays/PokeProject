@@ -4,10 +4,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -119,7 +121,7 @@ class MainActivity : DaggerAppCompatActivity() {
                     super.onScrollStateChanged(recyclerView, newState)
 
                     if (recyclerView.canScrollVertically(1).not() && viewModel.loading.value == false) {
-                        viewModel.getPokemonsFromInteractor(LIMIT, offset+ LIMIT)
+                        viewModel.getPokemonsFromInteractor(LIMIT, offset + LIMIT)
                         offset += LIMIT
                     }
 
@@ -132,13 +134,25 @@ class MainActivity : DaggerAppCompatActivity() {
         observeValue(viewModel.eventState) { event ->
             when (event) {
                 is MainViewModelEvent.Loading -> showLoading()
+                is MainViewModelEvent.Loaded -> hideLoading()
+                is MainViewModelEvent.Error -> errorApi()
             }
         }
     }
 
-    fun showLoading() {
-        val progress = findViewById<CircularProgressIndicator>(R.id.progress_circular)
-        progress.show()
+    private fun showLoading() {
+        viewModel.progress.value = View.VISIBLE
+        binding.progressCircular.show()
+    }
+
+    private fun hideLoading() {
+        viewModel.progress.value = View.GONE
+        binding.progressCircular.hide()
+    }
+
+    private fun errorApi() {
+        viewModel.progress.value = View.VISIBLE
+        Toast.makeText(this, "Verifique sua conexão com a Internet", Toast.LENGTH_LONG).show()
     }
 
 }

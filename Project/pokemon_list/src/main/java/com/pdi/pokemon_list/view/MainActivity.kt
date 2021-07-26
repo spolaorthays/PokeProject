@@ -14,12 +14,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.pdi.pokemon_list.R
-import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.databinding.ActivityMainBinding
 import com.pdi.pokemon_list.viewmodel.MainViewModel
 import com.pdi.pokemon_list.viewmodel.MainViewModelEvent

@@ -1,6 +1,5 @@
 package com.pdi.pokemon_list.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.remote.Pokemon
@@ -43,7 +42,6 @@ class MainViewModel @Inject constructor(
                         }
                     },
                     onError = {
-                        Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
                         emitEvent(MainViewModelEvent.Error)
                     }
                 )
@@ -60,9 +58,7 @@ class MainViewModel @Inject constructor(
                                     pokemon.pokemonDetails = details
 
                                     getPokemonColorFromInteractor(pokemon)
-                                }, onError = {
-                            Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
-                        }
+                                }, onError = {}
                         )
         )
     }
@@ -78,9 +74,7 @@ class MainViewModel @Inject constructor(
                                     pokemon.pokemonSpecies = pokemonSpecies
                                     pokemonComplete.add(pokemon)
                                     pokemonList.value = pokemonComplete
-                                }, onError = {
-                            Log.e("Errouuuuu", "Erro ao consultar a api: ${it.message}")
-                        }
+                                }, onError = {}
                         )
         )
     }

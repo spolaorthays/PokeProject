@@ -1,10 +1,12 @@
 package com.pdi.pokemon_list.viewmodel
 
+import android.text.TextUtils.isEmpty
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.remote.Pokemon
 import com.pdi.pokemon_list.domain.PokemonContract
 import com.pdi.share.AppSchedulers
+import com.pdi.share.utils.MutableLiveDataNotIsNull
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
@@ -21,6 +23,13 @@ class MainViewModel @Inject constructor(
     val eventState = MutableLiveData<MainViewModelEvent>()
     val progressVisibility = MutableLiveData<Int>()
     val tryAgainVisibility = MutableLiveData<Int>()
+    val limit = MutableLiveDataNotIsNull(10)
+    val offset = MutableLiveDataNotIsNull(0)
+    val updateOffset = MutableLiveData<Boolean>()
+
+    init {
+        getPokemonsFromInteractor(limit.value, offset.value)
+    }
 
     fun getPokemonsFromInteractor(limit: Int, offset: Int) {
         compositeDisposable.add(
@@ -36,16 +45,27 @@ class MainViewModel @Inject constructor(
                     emitEvent(MainViewModelEvent.Loaded)
                 }
                 .subscribeBy(
-                    onSuccess = {
-                        it.forEach { pokemon ->
-                            getPokemonDetailFromInteractor(pokemon)
-                        }
-                    },
-                    onError = {
-                        emitEvent(MainViewModelEvent.Error)
-                    }
+                    onSuccess = { successResults(it) },
+                    onError = { emitEvent(MainViewModelEvent.Error) }
                 )
         )
+    }
+
+    fun successResults(list: List<Pokemon>) {
+        if (list.isEmpty()) {
+            emitEvent(MainViewModelEvent.Empty)
+        } else {
+            list.forEach { pokemon ->
+                getPokemonDetailFromInteractor(pokemon)
+            }
+            emitEvent(MainViewModelEvent.Success)
+        }
+    }
+
+    fun updateOffsetValue() {
+        if (updateOffset.value == true) {
+            offset.value += limit.value
+        }
     }
 
     private fun getPokemonDetailFromInteractor(pokemon: Pokemon) {

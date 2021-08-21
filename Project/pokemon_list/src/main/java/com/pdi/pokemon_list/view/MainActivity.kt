@@ -25,28 +25,13 @@ import com.pdi.share.extension.observeValue
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-open class DataBindingHelper: AppCompatActivity() {
-
-    inline fun <reified T : ViewDataBinding> Activity.bind(@LayoutRes layout: Int, noinline block: T.() -> Unit): T {
-        return DataBindingUtil.setContentView<T>(this, layout).apply {
-            block.invoke(this)
-        }
-    }
-
-}
-
 class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerPokemonAdapter
-    private var offset = 0
 
     @Inject
     lateinit var viewModel: MainViewModel
-
-    companion object {
-        const val LIMIT = 10
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +45,6 @@ class MainActivity : DaggerAppCompatActivity() {
         }
 
         setupRecycler()
-        setupViewModel()
         exitApp()
         showOptions()
         watchEvent()
@@ -110,8 +94,6 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel.getPokemonsFromInteractor(LIMIT, offset)
-
         viewModel.pokemonList.observeForever { listPoke ->
             adapter.updatePokemons(listPoke)
 
@@ -120,12 +102,18 @@ class MainActivity : DaggerAppCompatActivity() {
                     super.onScrollStateChanged(recyclerView, newState)
 
                     if (recyclerView.canScrollVertically(1).not() && viewModel.loading.value == false) {
-                        viewModel.getPokemonsFromInteractor(LIMIT, offset + LIMIT)
-                        offset += LIMIT
+                        viewModel.getPokemonsFromInteractor(viewModel.limit.value, viewModel.offset.value + viewModel.limit.value)
+                        viewModel.updateOffset.value = true
                     }
 
                 }
             })
+        }
+
+        viewModel.updateOffset.observeForever {
+            if (it == true) {
+                viewModel.updateOffsetValue()
+            }
         }
     }
 
@@ -138,6 +126,8 @@ class MainActivity : DaggerAppCompatActivity() {
                     errorApi()
                     callTryAgain()
                 }
+                is MainViewModelEvent.Success -> setupViewModel()
+                is MainViewModelEvent.Empty -> showMessageEmptyList()
             }
         }
     }
@@ -165,6 +155,11 @@ class MainActivity : DaggerAppCompatActivity() {
             setupViewModel()
             viewModel.tryAgainVisibility.value = View.GONE
         }
+    }
+
+    private fun showMessageEmptyList() {
+        viewModel.updateOffset.value = false
+        Toast.makeText(this, getString(R.string.message_finish_list), Toast.LENGTH_LONG).show()
     }
 
 }

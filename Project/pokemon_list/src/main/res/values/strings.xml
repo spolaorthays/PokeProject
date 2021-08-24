@@ -6,4 +6,5 @@
     <string name="alert_negative">Não</string>
     <string name="message_debit_function">Função ainda não disponível</string>
     <string name="message_finish_list">Você é incrível! Viu todos pokemons existentes!</string>
+    <string name="pokedex">Pokedex</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.pdi.pokemon_list.viewmodel
 
-import android.text.TextUtils.isEmpty
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pdi.pokemon_list.data.remote.Pokemon
@@ -28,12 +27,13 @@ class MainViewModel @Inject constructor(
     val updateOffset = MutableLiveData<Boolean>()
 
     init {
-        getPokemonsFromInteractor(limit.value, offset.value)
+        getPokemonsFromInteractor()
     }
 
-    fun getPokemonsFromInteractor(limit: Int, offset: Int) {
+    fun getPokemonsFromInteractor() {
+        updateOffsetValue()
         compositeDisposable.add(
-            interactor.getPokemonListFromRepository(limit, offset)
+            interactor.getPokemonListFromRepository(limit.value, offset.value)
                 .subscribeOn(scheduler.io)
                 .observeOn(scheduler.main)
                 .doOnSubscribe {

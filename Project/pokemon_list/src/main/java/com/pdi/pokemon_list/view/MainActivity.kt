@@ -1,6 +1,5 @@
 package com.pdi.pokemon_list.view
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +9,7 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -110,26 +106,20 @@ class MainActivity : DaggerAppCompatActivity() {
                     super.onScrollStateChanged(recyclerView, newState)
 
                     if (recyclerView.canScrollVertically(1).not() && viewModel.loading.value == false) {
-                        viewModel.getPokemonsFromInteractor(viewModel.limit.value, viewModel.offset.value + viewModel.limit.value)
                         viewModel.updateOffset.value = true
+                        viewModel.getPokemonsFromInteractor()
                     }
-
+                    viewModel.updateOffset.value = false
                 }
             })
-        }
-
-        viewModel.updateOffset.observeForever {
-            if (it == true) {
-                viewModel.updateOffsetValue()
-            }
         }
     }
 
     private fun watchEvent() {
         observeValue(viewModel.eventState) { event ->
             when (event) {
-                is MainViewModelEvent.Loading -> showLoading(View.VISIBLE, View.GONE, true)
-                is MainViewModelEvent.Loaded -> showLoading(View.GONE, View.GONE, false) //hideLoading()
+                is MainViewModelEvent.Loading -> loadingVisibility(View.VISIBLE, true)
+                is MainViewModelEvent.Loaded -> loadingVisibility(View.GONE, false)
                 is MainViewModelEvent.Error -> {
                     errorApi()
                     callTryAgain()
@@ -140,21 +130,14 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun showLoading(progressVisibility: Int, tryAgainVisibility: Int, showProgress: Boolean) {
-        viewModel.progressVisibility.value = progressVisibility //View.VISIBLE
-        //binding.progressCircular.show()
-        viewModel.tryAgainVisibility.value = tryAgainVisibility //View.GONE
+    private fun loadingVisibility(progressVisibility: Int, showProgress: Boolean) {
+        viewModel.progressVisibility.value = progressVisibility
+        viewModel.tryAgainVisibility.value = View.GONE
         if (showProgress) {
             binding.progressCircular.show()
         } else {
             binding.progressCircular.hide()
         }
-    }
-
-    private fun hideLoading() {
-        viewModel.progressVisibility.value = View.GONE
-        binding.progressCircular.hide()
-        viewModel.tryAgainVisibility.value = View.GONE
     }
 
     private fun errorApi() {

@@ -64,16 +64,6 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun exitApp() {
         val btBack = binding.toolbar.findViewById<ImageView>(R.id.button_close)
         btBack.setOnClickListener {
-//            AlertDialog.Builder(this)
-//                    .setTitle(R.string.alert_title)
-//                    .setMessage(R.string.alert_message_exit)
-//                    .setCancelable(false)
-//                    .setPositiveButton(R.string.alert_positive) { dialog, which ->
-//                        dialog.dismiss()
-//                        finish()
-//                    }.setNegativeButton(R.string.alert_negative) { dialog, which ->
-//                        dialog.dismiss()
-//                    }.show()
             alertDialog
                     .setPositiveButton(R.string.alert_positive) { dialog, which ->
                         dialog.dismiss()
@@ -138,8 +128,8 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun watchEvent() {
         observeValue(viewModel.eventState) { event ->
             when (event) {
-                is MainViewModelEvent.Loading -> showLoading()
-                is MainViewModelEvent.Loaded -> hideLoading()
+                is MainViewModelEvent.Loading -> showLoading(View.VISIBLE, View.GONE, true)
+                is MainViewModelEvent.Loaded -> showLoading(View.GONE, View.GONE, false) //hideLoading()
                 is MainViewModelEvent.Error -> {
                     errorApi()
                     callTryAgain()
@@ -150,10 +140,15 @@ class MainActivity : DaggerAppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        viewModel.progressVisibility.value = View.VISIBLE
-        binding.progressCircular.show()
-        viewModel.tryAgainVisibility.value = View.GONE
+    private fun showLoading(progressVisibility: Int, tryAgainVisibility: Int, showProgress: Boolean) {
+        viewModel.progressVisibility.value = progressVisibility //View.VISIBLE
+        //binding.progressCircular.show()
+        viewModel.tryAgainVisibility.value = tryAgainVisibility //View.GONE
+        if (showProgress) {
+            binding.progressCircular.show()
+        } else {
+            binding.progressCircular.hide()
+        }
     }
 
     private fun hideLoading() {

@@ -29,6 +29,7 @@ class MainActivity : DaggerAppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerPokemonAdapter
+    private lateinit var alertDialog: AlertDialog.Builder
 
     @Inject
     lateinit var viewModel: MainViewModel
@@ -44,19 +45,36 @@ class MainActivity : DaggerAppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
+        setupAlert()
         setupRecycler()
         exitApp()
         showOptions()
         watchEvent()
     }
 
+    private fun setupAlert() {
+        alertDialog = AlertDialog.Builder(this)
+        alertDialog.apply {
+            setTitle(R.string.alert_title)
+            setMessage(R.string.alert_message_exit)
+            setCancelable(false)
+        }
+    }
+
     private fun exitApp() {
         val btBack = binding.toolbar.findViewById<ImageView>(R.id.button_close)
         btBack.setOnClickListener {
-            AlertDialog.Builder(this)
-                    .setTitle(R.string.alert_title)
-                    .setMessage(R.string.alert_message_exit)
-                    .setCancelable(false)
+//            AlertDialog.Builder(this)
+//                    .setTitle(R.string.alert_title)
+//                    .setMessage(R.string.alert_message_exit)
+//                    .setCancelable(false)
+//                    .setPositiveButton(R.string.alert_positive) { dialog, which ->
+//                        dialog.dismiss()
+//                        finish()
+//                    }.setNegativeButton(R.string.alert_negative) { dialog, which ->
+//                        dialog.dismiss()
+//                    }.show()
+            alertDialog
                     .setPositiveButton(R.string.alert_positive) { dialog, which ->
                         dialog.dismiss()
                         finish()
@@ -160,6 +178,14 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun showMessageEmptyList() {
         viewModel.updateOffset.value = false
         Toast.makeText(this, getString(R.string.message_finish_list), Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        alertDialog.setOnDismissListener {
+            it.dismiss()
+        }
     }
 
 }
